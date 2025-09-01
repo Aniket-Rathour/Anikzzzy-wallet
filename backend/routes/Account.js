@@ -3,6 +3,7 @@ const zod= require("zod")
 const router= express.Router();
 const {User,Account} = require("../db");
 
+<<<<<<< HEAD
 
 const transfer= new zod.object({
     senderUserName:zod.String(),
@@ -53,5 +54,13 @@ router.post("/transfer",async (req,res,next)=>{
 
     }
 
+=======
+const transfer= new ZodAny.object({
+
+})
+
+router.post("/transfer",(req,res,next)=>{
+    const body = req.body;
+>>>>>>> 061a3c6df959d446cb9772d6136376856dad9422
 })
 

@@ -3,8 +3,6 @@ const zod= require("zod")
 const router= express.Router();
 const {User,Account} = require("../db");
 
-<<<<<<< HEAD
-
 const transfer= new zod.object({
     senderUserName:zod.String(),
     reseverUserName:zod.String(),
@@ -46,21 +44,12 @@ router.post("/transfer",async (req,res,next)=>{
     session.startTransaction();
 
     try{
-        Account.reseverExist.amount = Account
+        Account.reseverExist.amount 
 
     }catch{
 
     }finally{
 
     }
-
-=======
-const transfer= new ZodAny.object({
-
-})
-
-router.post("/transfer",(req,res,next)=>{
-    const body = req.body;
->>>>>>> 061a3c6df959d446cb9772d6136376856dad9422
 })
 

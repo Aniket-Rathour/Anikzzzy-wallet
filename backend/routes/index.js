@@ -1,6 +1,6 @@
 const express=require("express");
 const router= express.Router();
-const User=require("../db")
+const {User,Account}=require("../db")
 
 const UserRoute= require("./User")
 const TransferRoute=require("./Account")

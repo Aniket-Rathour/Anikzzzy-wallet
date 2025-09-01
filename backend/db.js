@@ -9,7 +9,7 @@ if (!MONGO_URI) {
     console.log("mongo_uri is present")
 }
 
-mongoose.connect(process.env.MONGO_URI, { keepAlive: true })
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 

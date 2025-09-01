@@ -18,37 +18,51 @@ router.post("/transfer",async (req,res,next)=>{
             msg:"transer structure is wrong"
         })
     }
-    const senderExist= await User.findOne({username:body.senderUsername});
-    const reseverExist= await User.findOne({username:body.reseverUsername});
-
-    if(!senderExist && !reseverExist){
-        res.status(404).json({
-            msg:"the sender dosent exist"
-        })
-    }
-    const senderAccount = await Account.findOne({user:senderExist._id})
-    if(!senderAccount){
-        res.status(404).json({
-            msg:"sender account not found"
-        })
-    }
-
-    const userAccount= await Account.findOne({user:reseverExist._id})
-    if(!senderAccount){
-        res.status(404).json({
-            msg:"resever account not found "
-        })
-    }
-
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    
 
     try{
-        Account.reseverExist.amount 
 
-    }catch{
 
-    }finally{
+        const sender= await User.findOne({username:body.senderUsername});
+        const resever= await User.findOne({username:body.reseverUsername});
+
+        if(!sender && !resever){
+            res.status(404).json({
+                msg:"the sender dosent exist"
+            })
+        }
+
+        const senderAccount = await Account.findOne({user:sender._id})
+        const reseverAccount= await Account.findOne({user:resever._id})
+        if(!senderAccount || !reseverAccount){
+            res.status(404).json({
+                msg:"sender/resever account not found"
+            })
+        }
+
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        if(senderAccount.amount < body.amount){
+            throw new Error("Insufficent ballane");
+        }
+
+        senderAccount.balance = senderAccount.balance- body.amount;
+        reseverAccount.balance = reseverAccount.balance- body.amount;
+
+        await senderAccount.save({session});
+        await reseverAccount.save({session});
+
+        await session.commitTransation();
+        session.endSession();
+        return{
+            success:true, msg:"Transfered completeled successfully "
+        }
+
+    }catch(err){
+        await session.abortTransation();
+        session.endSession();
+        return{success:false, msg:err.massage}
+
 
     }
 })

@@ -1,5 +1,13 @@
 const mongoose =require("mongoose");
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/.env" });
+
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  throw new Error("❌ MONGO_URI is missing from .env file");
+}else{
+    console.log("mongo_uri is present")
+}
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{

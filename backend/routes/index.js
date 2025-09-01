@@ -3,7 +3,10 @@ const router= express.Router();
 const User=require("../db")
 
 const UserRoute= require("./User")
+const TransferRoute=require("./Account")
 router.use("/user",UserRoute);
+router.use("/transfer",TransferRoute)
+
 
 router.get("/",async (req,res,next)=>{
     try{

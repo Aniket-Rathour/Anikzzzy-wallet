@@ -1,15 +1,16 @@
 const express= require("express")
 const zod= require("zod")
 const router= express.Router();
+const mongoose = require("mongoose"); 
 const {User,Account} = require("../db");
 
 const transfer= new zod.object({
-    senderUserName:zod.String(),
-    reseverUserName:zod.String(),
-    amount:zod.String()
+    senderUserName:zod.string(),
+    receiverUserName:zod.string(),
+    amount:zod.number()
 })
 
-router.post("/transfer",async (req,res,next)=>{
+router.post("/send",async (req,res,next)=>{
     const body = req.body;
     const success= transfer.safeParse(body)
 
@@ -23,18 +24,18 @@ router.post("/transfer",async (req,res,next)=>{
     try{
 
 
-        const sender= await User.findOne({username:body.senderUsername});
-        const resever= await User.findOne({username:body.reseverUsername});
+        const sender= await User.findOne({userName:body.senderUserName});
+        const receiver= await User.findOne({userName:body.receiverUserName});
 
-        if(!sender && !resever){
+        if(!sender || !receiver){
             res.status(404).json({
                 msg:"the sender dosent exist"
             })
         }
 
         const senderAccount = await Account.findOne({user:sender._id})
-        const reseverAccount= await Account.findOne({user:resever._id})
-        if(!senderAccount || !reseverAccount){
+        const receiverAccount= await Account.findOne({user:receiver._id})
+        if(!senderAccount || !receiverAccount){
             res.status(404).json({
                 msg:"sender/resever account not found"
             })
@@ -42,28 +43,32 @@ router.post("/transfer",async (req,res,next)=>{
 
         const session = await mongoose.startSession();
         session.startTransaction();
-        if(senderAccount.amount < body.amount){
+
+        if(senderAccount.balance < body.amount){
             throw new Error("Insufficent ballane");
         }
 
         senderAccount.balance = senderAccount.balance- body.amount;
-        reseverAccount.balance = reseverAccount.balance- body.amount;
+        receiverAccount.balance = receiverAccount.balance + body.amount;
 
         await senderAccount.save({session});
-        await reseverAccount.save({session});
+        await receiverAccount.save({session});
 
-        await session.commitTransation();
+        await session.commitTransaction();
         session.endSession();
-        return{
+
+        return res.json({
             success:true, msg:"Transfered completeled successfully "
-        }
+        })
 
     }catch(err){
-        await session.abortTransation();
+        await session.abortTransaction();
         session.endSession();
-        return{success:false, msg:err.massage}
+        return{success:false, msg:err.message}
 
 
     }
 })
+
+module.exports=router;
 

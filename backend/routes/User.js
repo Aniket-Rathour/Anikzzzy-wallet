@@ -3,7 +3,8 @@ const app=express();
 const zod=require("zod")
 app.use(express.json());
 const router = express.Router();
-const {User,Account}= require("../db")
+const {User}= require("../db");
+const {Account}= require("../db");
 
 
 

@@ -9,12 +9,9 @@ if (!MONGO_URI) {
     console.log("mongo_uri is present")
 }
 
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log("conected mongoose")
-}).catch(err=>{
-    console.log("mongodb error ", err)
-})
+mongoose.connect(process.env.MONGO_URI, { keepAlive: true })
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 const UserSchema= new mongoose.Schema({
     userName:String,
@@ -36,7 +33,7 @@ const AccountSchema= new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 const Account = mongoose.model("account", AccountSchema);
 
-module.exports =  {User,Account};
+module.exports =  {User, Account};
 
 
 

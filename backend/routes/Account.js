@@ -2,7 +2,8 @@ const express= require("express")
 const zod= require("zod")
 const router= express.Router();
 const mongoose = require("mongoose"); 
-const {User,Account} = require("../db");
+const {User} = require("../db");
+const {Account} = require("../db");
 
 const transfer= new zod.object({
     senderUserName:zod.string(),

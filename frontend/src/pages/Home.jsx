@@ -22,6 +22,7 @@ function Home() {
               $40,000
             </h1>
           </div>
+          
           {/* Quick Actions */}
           <div className="md:col-span-2">
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">

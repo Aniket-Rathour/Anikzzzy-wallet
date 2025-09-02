@@ -1,0 +1,39 @@
+const mongoose =require("mongoose");
+require("dotenv").config({ path: __dirname + "/.env" });
+
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  throw new Error("❌ MONGO_URI is missing from .env file");
+}else{
+    console.log("mongo_uri is present")
+}
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
+
+const UserSchema= new mongoose.Schema({
+    userName:String,
+    password:String,
+    firstName:String,
+    lastName:String
+})
+const AccountSchema= new mongoose.Schema({
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+    balance:{
+        type:Number,
+        default: Math.floor(1+ Math.random()*10000)
+    },
+})
+
+const User = mongoose.model("User", UserSchema);
+const Account = mongoose.model("account", AccountSchema);
+
+module.exports =  {User, Account};
+
+
+

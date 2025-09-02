@@ -64,5 +64,29 @@ router.post("/signin",async (req,res,next)=>{
     }
 });
 
+router.get("/balance/:userName",async (req,res)=>{
+    try{
+        const {userName} =req.params;
+
+        const user= await User.findOne({userName:userName});
+        if(!user){
+            return res.status(404).json({msg:"user not found"});
+        }
+
+        const account = await Account.findOne({user:user._id});
+        if(!account){
+            return res.status(404).json({msg:"accou8nt not found "});
+
+        }
+
+        res.status(200).json({
+            msg:"Balanmce fetched successufilly",
+            user:user.userName,
+            balance:account.balance
+        });
+    }catch(err){
+        console.error(err);
+    }
+})
 
 module.exports=router;

@@ -13,13 +13,13 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import Topup from './pages/Topup';
 import Withdraw from './pages/Withdraw';
+import Footer from './components/Footer';
 
 function App() {
   
 
   return (
     <>
-      <Navbar></Navbar>
       <div>
         <Routes>
            <Route path="/" element={<Home />} />
@@ -32,6 +32,7 @@ function App() {
           <Route path="/withdraw" element={<Withdraw/>}/>
         </Routes>
       </div>
+      
     </>
   )
 }

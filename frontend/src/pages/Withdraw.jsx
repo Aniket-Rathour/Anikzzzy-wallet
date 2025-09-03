@@ -1,8 +1,14 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 function Withdraw() {
   return (
-    <div>Withdraw</div>
+    <div>
+      <Navbar></Navbar>
+      Withdraw
+      <Footer></Footer>
+    </div>
   )
 }
 

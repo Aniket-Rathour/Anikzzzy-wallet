@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 
 function Navbar() {
   return (
-    <div className='flex item-center bg-blue-50 justify-between py-3 pl-3  font-medium'>
+    <div className='flex item-center bg-gradient-to-br from-blue-50 to-blue-100 justify-between py-3 pl-3  font-medium'>
         <Link to="/"><img src='/logo.png' className='w-60' alr=""></img></Link>
         
         <ul className=' sm:flex py-5 gap-5 text-3xlbase text-gray-700'>
@@ -26,7 +26,7 @@ function Navbar() {
             </NavLink>
         </ul>
 
-        <Link to="/signin"><img src='/profile.png' className='w-20 p-4'></img></Link>
+        <Link to="/signup"><img src='/profile.png' className='w-20 p-4'></img></Link>
     </div>
   )
 }

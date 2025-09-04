@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { useAuth } from "../services/AuthContext"; 
 
 function Navbar() {
+    const {user} = useAuth();
   return (
     <div className='flex item-center bg-gradient-to-br from-blue-50 to-blue-100 justify-between py-3 pl-3  font-medium'>
         <Link to="/"><img src='/logo.png' className='w-60' alr=""></img></Link>
@@ -26,7 +28,17 @@ function Navbar() {
             </NavLink>
         </ul>
 
-        <Link to="/signup"><img src='/profile.png' className='w-20 p-4'></img></Link>
+         <div className='flex items-center gap-3 pr-4'>
+        {user? (
+          <span className='text-gray-700 font-semibold'>
+            Hi, {user.user.firstName || user.user.userName} 👋
+          </span>
+        ) : (
+          <Link to="/signup">
+            <img src='/profile.png' className='w-20 p-4' alt="profile" />
+          </Link>
+        )}
+      </div>
     </div>
   )
 }

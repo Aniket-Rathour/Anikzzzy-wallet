@@ -1,11 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useAuth } from "../services/AuthContext"; 
 
 
 function Home() {
+
+   const {user} = useAuth();
   const actions = [
     { name: "Send Money", img: "/send.png", bg: "bg-blue-100" ,to:"/transfer"},
     { name: "Request", img: "/request.png", bg: "bg-blue-100", to: "/transfer"},
@@ -25,7 +28,19 @@ function Home() {
           <div className="bg-blue-200 rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg flex flex-col justify-center">
             <p className="text-sm sm:text-base text-blue-500 font-medium">Available Balance</p>
             <h1 className="text-3xl sm:text-5xl md:text-3xl lg:text-5xl font-extrabold text-blue-900 mt-2 sm:mt-3">
-              $40,000
+              
+              {user? (
+               <span >
+               <div className='text-gray-700 font-semibold'>
+                ${user.Account.balance}</div>
+                </span>) : ( <Link to="/signup">
+                 <div className='text-gray-700 ' > 00.00</div>
+              </Link>
+        )}
+
+
+
+
             </h1>
           </div>
           

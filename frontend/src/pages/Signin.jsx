@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../services/AuthContext';
 
 function Signin() {
+  const{setUser} = useAuth();
 
   const [form,setForm ] = useState({
     userName:"",
     password:""
   });
+  const navigate = useNavigate();
 
   const handleChange = (e)=>{
     setForm({
@@ -22,7 +25,8 @@ function Signin() {
       const res=await axios.post("https://paytm-clone-pi-three.vercel.app/api/v1/user/signin" , form);
       console.log("signin success" , res.data);
       alert("signin succssfully")
-      useNavigate("/")
+      setUser(res.data)
+      navigate("/")
     }catch(err){
       console.error("Signup error :" , err.response?.data || err.message)
       alert("Signin faild")

@@ -25,9 +25,12 @@ function Signup() {
     try{
       const res= await axios.post("https://paytm-clone-pi-three.vercel.app/api/v1/user/signup",formData)
       console.log("signup success:", res.data);
+
+      if(res.status ===200){
       alert("user created succssfully")
-      setUser(res.data); ;
+      setUser(res.data);
       navigate("/");
+      }
     }catch(err){
         console.error("Signup error :", err.response?.data || err.message )
         alert("Signup faild")

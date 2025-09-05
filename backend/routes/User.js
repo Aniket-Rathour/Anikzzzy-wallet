@@ -58,12 +58,22 @@ router.post("/signin",async (req,res,next)=>{
     try{
         const exist = await User.findOne({userName:body.userName, password:body.password});
         if(exist){
-            return res.status(200).json({msg:"sign in succefull", 
-                user:{
-                    id:exist._id,
-                    userName:exist.userName
-                }
-            })
+            const account = await Account.findOne({ user: exist._id });
+
+            return res.status(200).json({
+                msg: "sign in successful",
+                user: {
+                    id: exist._id,
+                    userName: exist.userName,
+                    firstName: exist.firstName,
+                    lastName: exist.lastName,
+                },
+                account: account ? {
+                    id: account._id,
+                    balance: account.balance
+                } : null
+            });
+            
         }else {
             return res.status(401).json({ msg: "Invalid username or password" });
         }

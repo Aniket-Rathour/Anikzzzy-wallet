@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 function Signin() {
 
@@ -22,9 +22,9 @@ function Signin() {
       const res=await axios.post("https://paytm-clone-pi-three.vercel.app/api/v1/user/signin" , form);
       console.log("signin success" , res.data);
       alert("signin succssfully")
-      Navigate("/")
+      useNavigate("/")
     }catch(err){
-      console.error("Signup error :" , err.responce?.data || err.message)
+      console.error("Signup error :" , err.response?.data || err.message)
       alert("Signin faild")
     }
   }
@@ -56,12 +56,12 @@ function Signin() {
           
           <div className='flex flex-row items-center  border-2 gap-3 border-blue-300 w-90 rounded-2xl p-2 shadow-2xl'>
             <img src='/user.png' className='w-6 p'></img>
-            <input type="text" name="userName" onChange={handleChange} value={form.lastName} placeholder='User Name' className='w-full px-1 border border-white focus:outline-none focus:rind-0'></input>
+            <input type="text" name="userName" onChange={handleChange} value={form.userName} placeholder='User Name' className='w-full px-1 border border-white focus:outline-none focus:rind-0'></input>
           </div>
 
           <div className='flex flex-row items-center  border-2 gap-3 border-blue-300 w-90 rounded-2xl p-2 shadow-2xl'>
             <img src='/password.png' className='w-6 p'></img>
-            <input type="text" name="password" onChange={handleChange} value={form.lastName} placeholder='Password' className='w-full px-1 border border-white focus:outline-none focus:rind-0'></input>
+            <input type="text" name="password" onChange={handleChange} value={form.password} placeholder='Password' className='w-full px-1 border border-white focus:outline-none focus:rind-0'></input>
           </div>
 
           

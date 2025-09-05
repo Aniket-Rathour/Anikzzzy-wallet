@@ -61,9 +61,11 @@ router.post("/signin",async (req,res,next)=>{
             return res.status(200).json({msg:"sign in succefull", 
                 user:{
                     id:exist._id,
-                    userName:exist
+                    userName:exist.userName
                 }
             })
+        }else {
+            return res.status(401).json({ msg: "Invalid username or password" });
         }
         
     }catch(err){

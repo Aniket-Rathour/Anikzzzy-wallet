@@ -52,23 +52,23 @@ router.post("/signin",async (req,res,next)=>{
 
     const success= UserSigninCheck.safeParse(body);
     if(!success.success){
-        res.status(404).json({msg:"your emailid/password is wrong"});
+        return res.status(404).json({msg:"your emailid/password is wrong"});
     }
 
     try{
         const exist = await User.findOne({userName:body.userName, password:body.password});
         if(exist){
-            res.status(200).json({msg:"sign in succefull", 
+            return res.status(200).json({msg:"sign in succefull", 
                 user:{
                     id:exist._id,
-                    userName:exist.userName
+                    userName:exist
                 }
             })
         }
         
     }catch(err){
         console.error(err);
-        res.status(500).json({msg:"server error while signingin"})
+        return res.status(500).json({msg:"server error while signingin"})
     }
 });
 
@@ -87,13 +87,13 @@ router.get("/balance/:userName",async (req,res)=>{
 
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             msg:"Balanmce fetched successufilly",
             user:user.userName,
             balance:account.balance
         });
     }catch(err){
-        console.error(err);
+        return console.error(err);
     }
 })
 

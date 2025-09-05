@@ -45,6 +45,8 @@ router.post("/signup",async (req,res,next)=>{
         res.status(500).json({msg:"server error while signingup"})
     }
 });
+
+
 router.post("/signin",async (req,res,next)=>{
     const body = req.body;
 
@@ -56,8 +58,14 @@ router.post("/signin",async (req,res,next)=>{
     try{
         const exist = await User.findOne({userName:body.userName, password:body.password});
         if(exist){
-            res.status(404).json({msg:"sign in succefull"})
+            res.status(200).json({msg:"sign in succefull", 
+                user:{
+                    id:exist._id,
+                    userName:exist.userName
+                }
+            })
         }
+        
     }catch(err){
         console.error(err);
         res.status(500).json({msg:"server error while signingin"})
